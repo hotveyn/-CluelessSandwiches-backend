@@ -4,6 +4,11 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @property string password
+ * @property string name
+ * @property string email
+ */
 class UserUpdateRequest extends FormRequest
 {
 
@@ -12,12 +17,12 @@ class UserUpdateRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             "password" => "string|min:4",
-            "name" => "string",
-            "email" => "string"
+            "name" => "string|min:4",
+            "email" => "string|min:2"
         ];
     }
 }

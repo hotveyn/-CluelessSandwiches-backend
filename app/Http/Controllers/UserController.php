@@ -9,11 +9,20 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Services\ResponseService;
 use App\Services\UserTokenService;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
-    public function login(UserLoginRequest $request)
+    /**
+     * Принимает phone, password
+     * Авторизует юзера, отдаёт токен
+     * @param UserLoginRequest $request
+     * @return Application|ResponseFactory|Response
+     */
+    public function login(UserLoginRequest $request): Response|Application|ResponseFactory
     {
         if (auth()->attempt($request->validated())) {
             $user = auth()->user();
@@ -29,19 +38,39 @@ class UserController extends Controller
         ]);
     }
 
-    public function store(UserStoreRequest $request)
+    /**
+     * Создаёт нового пользователя
+     * @param UserStoreRequest $request
+     * @return Application|ResponseFactory|Response
+     */
+    public function store(UserStoreRequest $request): Response|Application|ResponseFactory
     {
         User::create($request->validated());
         return ResponseService::noContent();
     }
 
-    public function update(UserUpdateRequest $request)
+    /**
+     * Принимает password, name, email
+     * Изменяет переданные значения авторизированного пользователя
+     * @param UserUpdateRequest $request
+     * @return Application|ResponseFactory|Response
+     */
+    public function update(UserUpdateRequest $request): Response|Application|ResponseFactory
     {
         $user = auth()->user();
-        $user->password = $request->password;
-        $user->name = $request->name;
-        $user->email = $request->email;
-        return response($user->name);
+
+        // todo: Переписать
+        if ($request->has('phone')) {
+            $user->password = $request->password;
+        }
+        if ($request->has('name')) {
+            $user->name = $request->name;
+        }
+        if ($request->has('email')) {
+            $user->email = $request->email;
+        }
+
+        return response($user);
     }
 
 //    public function info(UserStoreRequest $request){

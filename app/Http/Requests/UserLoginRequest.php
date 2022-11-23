@@ -1,12 +1,13 @@
 <?php
 
 namespace App\Http\Requests;
-
-use Illuminate\Foundation\Http\FormRequest;
-
+/**
+ * @property string phone
+ * @property string password
+ */
 class UserLoginRequest extends BaseFormRequest
 {
-    public function rules()
+    public function rules(): array
     {
         return [
             "phone" => 'required|string|max:32|min:6',
