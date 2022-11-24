@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProtuctOptionUpdateRequest;
 use App\Http\Resources\CategoryResource;
+use App\Http\Resources\OptionResource;
 use App\Http\Resources\ProductResource;
 use App\Models\Option;
 use App\Models\Product;
@@ -15,31 +16,43 @@ use Illuminate\Http\Response;
 
 class ProductController extends Controller
 {
+
     /**
-     * Принимает id продукта
+     * Возвращает все продукты
+     * @return Response|Application|ResponseFactory
+     */
+    public function info(): Response|Application|ResponseFactory
+    {
+        return ResponseService::success(ProductResource::collection(Product::all()));
+    }
+
+    /**
      * Возвращает категорию с которой связан продукт
      * @param Product $product
      * @return Response|Application|ResponseFactory
      */
     public function categoryInfo(Product $product): Response|Application|ResponseFactory
     {
-        return ResponseService::success(CategoryResource::collection($product->category()->get()));
+        return ResponseService::success(CategoryResource::make($product->category));
     }
 
     /**
-     * Принимает id продокута
-     * Возвращает полною информацию о продукте
+     * Возвращает какой-либо продукте
      * @param Product $product
      * @return Response|Application|ResponseFactory
      */
-    public function info(Product $product): Response|Application|ResponseFactory
+    public function infoOne(Product $product): Response|Application|ResponseFactory
     {
         return ResponseService::success(ProductResource::make($product));
     }
 
-    public function optionUpdate(ProtuctOptionUpdateRequest $request, Product $product, Option $option)
+    /**
+     * Возвращает список опций продукта
+     * @param Product $product
+     * @return Response|Application|ResponseFactory
+     */
+    public function optionInfo(Product $product): Response|Application|ResponseFactory
     {
-        $option->update($request->validated());
-        return response($option);
+        return ResponseService::success(OptionResource::collection($product->productOption->options));
     }
 }
