@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -21,9 +23,19 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('/user')->group(function (){
     Route::get("/login", [UserController::class, "login"]);
     Route::post("/register", [UserController::class, "store"]);
-    Route::post("/register", [UserController::class, "store"]);
 
     Route::middleware('auth:api')->group(function (){
        Route::patch("update", [UserController::class,"update"]);
     });
+});
+
+Route::prefix('/order')->group(function (){
+   Route::get('/{order}', [OrderController::class, "info"]);
+   Route::patch('/{order}/status', [OrderController::class, "update"]);
+});
+
+Route::prefix('/product')->group(function (){
+    Route::get('/{product}/category', [ProductController::class, "categoryInfo"]);
+    Route::get('/{product}', [ProductController::class, "info"]);
+    Route::patch('/{product}/option/{option}', [ProductController::class, "optionUpdate"]);
 });
