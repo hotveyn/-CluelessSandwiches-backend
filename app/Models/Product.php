@@ -12,7 +12,7 @@ class Product extends Model
     use HasFactory;
 
     /**
-     * Возмращает привязанную к продукту категорию
+     * Возвращает привязанную к продукту категорию
      * @return BelongsTo
      */
     public function category(): BelongsTo
@@ -20,7 +20,11 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function productOptions(): HasOne
+    /**
+     * Возвращает продукт-опцию товара
+     * @return HasOne
+     */
+    public function productOption(): HasOne
     {
         return $this->hasOne(ProductOption::class);
     }
