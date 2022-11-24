@@ -9,7 +9,7 @@ class OrderResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
     public function toArray($request)
@@ -18,6 +18,7 @@ class OrderResource extends JsonResource
             'id' => $this->id,
             'code' => $this->code,
             'status_id' => $this->status_id,
+            'products' => OrderProductResource::collection($this->orderProduct)
         ];
     }
 }

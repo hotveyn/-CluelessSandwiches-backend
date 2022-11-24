@@ -20,7 +20,7 @@ class ProductResource extends JsonResource
             "price" => $this->price,
             "description" => $this->description,
             "category" => CategoryResource::make($this->category),
-            "options" => OptionResource::collection($this->productOptions->options)
+            "options" => OptionResource::collection($this->productOption->options)
         ];
     }
 }
