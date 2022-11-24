@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OptionController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
@@ -30,12 +31,20 @@ Route::prefix('/user')->group(function (){
 });
 
 Route::prefix('/order')->group(function (){
-   Route::get('/{order}', [OrderController::class, "info"]);
+   Route::get('/', [OrderController::class, "info"]);
+   Route::post('/create', [OrderController::class, "store"]);
+   Route::get('/{order}', [OrderController::class, "infoOne"]);
    Route::patch('/{order}/status', [OrderController::class, "update"]);
 });
 
 Route::prefix('/product')->group(function (){
+    Route::get('/', [ProductController::class, "info"]);
+    Route::get('/{product}', [ProductController::class, "infoOne"]);
     Route::get('/{product}/category', [ProductController::class, "categoryInfo"]);
-    Route::get('/{product}', [ProductController::class, "info"]);
-    Route::patch('/{product}/option/{option}', [ProductController::class, "optionUpdate"]);
+    Route::get('/{product}/option', [ProductController::class, "optionInfo"]);
+});
+
+Route::prefix('/option')->group(function (){
+    Route::patch('/{option}', [OptionController::class, "info"]);
+    Route::patch('/{option}/toggle', [OptionController::class, "update"]);
 });
