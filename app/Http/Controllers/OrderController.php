@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\OrderStatusRequest;
+use App\Http\Requests\OrderStoreRequest;
+use App\Http\Resources\OrderProductResource;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
+use App\Models\OrderProduct;
 use App\Services\ResponseService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -30,11 +33,44 @@ class OrderController extends Controller
     }
 
     /**
+     * Возвращает информацию по какому то из заказов
      * @param Order $order
      * @return Application|Response|ResponseFactory
      */
-    public function info(Order $order): Application|ResponseFactory|Response
+    public function infoOne(Order $order): Application|ResponseFactory|Response
     {
-        return response(OrderResource::make($order));
+        return ResponseService::success(OrderResource::make($order));
+    }
+
+    /**
+     * Возвращает все заказы
+     * @return Response|Application|ResponseFactory
+     */
+    public function info(): Response|Application|ResponseFactory
+    {
+        return ResponseService::success(OrderResource::collection(Order::all()));
+    }
+
+    /**
+     * Создаёт новый заказ
+     * @param OrderStoreRequest $request
+     * @return Response|Application|ResponseFactory
+     */
+    public function store(OrderStoreRequest $request): Response|Application|ResponseFactory
+    {
+        $order = Order::create([
+            //todo: хз как сделать чтобы он делал уникальный
+            "code"=>fake()->unique()->numberBetween(1, 10000),
+            "status_id"=>1,
+        ]);
+        //todo: Вынести в order_product (наверное)
+        foreach ($request->products as $product){
+            OrderProduct::create([
+                "order_id" => $order->id,
+                "product_id"=> $product['product_id'],
+                "count"=> $product['product_count']
+            ]);
+        }
+        return ResponseService::success(OrderResource::make($order));
     }
 }
