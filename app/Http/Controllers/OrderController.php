@@ -39,7 +39,7 @@ class OrderController extends Controller
      */
     public function infoOne(Order $order): Application|ResponseFactory|Response
     {
-        return ResponseService::success(OrderResource::make($order));
+        return response(OrderResource::make($order));
     }
 
     /**
@@ -48,7 +48,7 @@ class OrderController extends Controller
      */
     public function info(): Response|Application|ResponseFactory
     {
-        return ResponseService::success(OrderResource::collection(Order::all()));
+        return response(OrderResource::collection(Order::all()));
     }
 
     /**
@@ -71,6 +71,6 @@ class OrderController extends Controller
                 "count"=> $product['product_count']
             ]);
         }
-        return ResponseService::success(OrderResource::make($order));
+        return response(OrderResource::make($order));
     }
 }

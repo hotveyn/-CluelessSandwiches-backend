@@ -29,7 +29,7 @@ class UserController extends Controller
             $user->api_token = UserTokenService::generate();
             $user->save();
 
-            return ResponseService::success([
+            return response([
                 "token" => UserResource::make($user)
             ]);
         }
@@ -46,7 +46,7 @@ class UserController extends Controller
     public function store(UserStoreRequest $request): Response|Application|ResponseFactory
     {
         User::create($request->validated());
-        return ResponseService::noContent();
+        return response()->noContent();
     }
 
     /**

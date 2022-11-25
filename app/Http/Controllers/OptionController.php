@@ -23,7 +23,7 @@ class OptionController extends Controller
     public function update(OptionUpdateRequest $request, Option $option): Response|Application|ResponseFactory
     {
         $option->update($request->validated());
-        return ResponseService::noContent();
+        return response()->noContent();
     }
 
     /**

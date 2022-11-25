@@ -23,7 +23,7 @@ class ProductController extends Controller
      */
     public function info(): Response|Application|ResponseFactory
     {
-        return ResponseService::success(ProductResource::collection(Product::all()));
+        return response(ProductResource::collection(Product::all()));
     }
 
     /**
@@ -33,7 +33,7 @@ class ProductController extends Controller
      */
     public function categoryInfo(Product $product): Response|Application|ResponseFactory
     {
-        return ResponseService::success(CategoryResource::make($product->category));
+        return response(CategoryResource::make($product->category));
     }
 
     /**
@@ -43,7 +43,7 @@ class ProductController extends Controller
      */
     public function infoOne(Product $product): Response|Application|ResponseFactory
     {
-        return ResponseService::success(ProductResource::make($product));
+        return response(ProductResource::make($product));
     }
 
     /**
@@ -53,6 +53,6 @@ class ProductController extends Controller
      */
     public function optionInfo(Product $product): Response|Application|ResponseFactory
     {
-        return ResponseService::success(OptionResource::collection($product->productOption->options));
+        return response(OptionResource::collection($product->productOption->options));
     }
 }
