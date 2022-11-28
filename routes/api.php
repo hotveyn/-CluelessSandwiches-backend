@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OptionController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
@@ -47,4 +48,8 @@ Route::prefix('/product')->group(function (){
 Route::prefix('/option')->group(function (){
     Route::patch('/{option}', [OptionController::class, "info"]);
     Route::patch('/{option}/toggle', [OptionController::class, "update"]);
+});
+Route::prefix('/categories')->group(function (){
+    Route::get('/', [CategoryController::class, "info"]);
+    Route::get('/{category}/product', [CategoryController::class, "infoOne"]);
 });
