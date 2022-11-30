@@ -8,6 +8,8 @@ use App\Http\Resources\OrderProductResource;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Models\OrderProduct;
+use App\Models\OrderProductOption;
+use App\Models\Product;
 use App\Services\ResponseService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -65,11 +67,19 @@ class OrderController extends Controller
         ]);
         //todo: Вынести в order_product (наверное)
         foreach ($request->products as $product){
-            OrderProduct::create([
+            $orderProduct = OrderProduct::create([
                 "order_id" => $order->id,
                 "product_id"=> $product['product_id'],
                 "count"=> $product['product_count']
             ]);
+
+            foreach ($product->options as $option){
+                OrderProductOption::create([
+                    "name" => $option->name,
+                    "toggle" => $option->toggle,
+                    "order_product_id" => $orderProduct->id
+                ]);
+            }
         }
         return response(OrderResource::make($order));
     }
