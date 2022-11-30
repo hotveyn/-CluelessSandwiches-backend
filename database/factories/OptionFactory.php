@@ -17,8 +17,7 @@ class OptionFactory extends Factory
     public function definition()
     {
         return [
-            "name"=>fake()->word(),
-            "toggle"=>fake()->boolean()
+            "name"=>fake()->word()
         ];
     }
 }
