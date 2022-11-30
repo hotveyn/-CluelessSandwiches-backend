@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Product;
 use App\Models\ProductOption;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -17,8 +18,7 @@ return new class extends Migration
         Schema::create('options', function (Blueprint $table) {
             $table->id();
             $table->string("name");
-            $table->boolean("toggle");
-            $table->foreignIdFor(ProductOption::class)->constrained();
+            $table->foreignIdFor(Product::class)->constrained();
             $table->timestamps();
         });
     }

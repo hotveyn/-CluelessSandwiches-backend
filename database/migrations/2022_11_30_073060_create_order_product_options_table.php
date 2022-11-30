@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\Order;
-use App\Models\Product;
+use App\Models\Option;
+use App\Models\OrderProduct;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,11 +15,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('order_products', function (Blueprint $table) {
+        Schema::create('order_product_options', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Order::class)->constrained();
-            $table->foreignIdFor(Product::class)->constrained();
-            $table->integer("count")->default(1);
+            $table->string("name");
+            $table->boolean("toggle")->default(0);
+            $table->foreignIdFor(OrderProduct::class)->constrained();
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('order_products');
+        Schema::dropIfExists('order_product_options');
     }
 };
