@@ -5,8 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
+/**
+ * @property HasMany productOption
+ * @property BelongsTo category
+ */
 class Product extends Model
 {
     use HasFactory;
@@ -21,11 +26,11 @@ class Product extends Model
     }
 
     /**
-     * Возвращает продукт-опцию товара
-     * @return HasOne
+     * Возвращает опции товара
+     * @return HasMany
      */
-    public function productOption(): HasOne
+    public function options(): HasMany
     {
-        return $this->hasOne(ProductOption::class);
+        return $this->hasMany(Option::class);
     }
 }
